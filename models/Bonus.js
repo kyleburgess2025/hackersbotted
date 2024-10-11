@@ -1,12 +1,12 @@
-const { Schema, model, models } = require('mongoose');
+const { Schema, model, models } = require("mongoose");
 
 const bonusSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
   },
   multiplier: Number,
   timestamp: Date,
-})
+});
 
-export default models.Bonus || model('Bonus', bonusSchema);
+module.exports = models.Bonus || model("Bonus", bonusSchema);
