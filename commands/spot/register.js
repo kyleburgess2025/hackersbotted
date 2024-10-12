@@ -11,10 +11,9 @@ module.exports = {
     await connect();
     const user = interaction.user;
     const userExists = await User.exists({ username: user.username });
-    console.log(userExists)
 
     if (userExists) {
-      console.log('User exists')
+      console.log("User exists");
       await interaction.editReply("You already have an account!");
       return;
     }
