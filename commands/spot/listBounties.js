@@ -7,7 +7,7 @@ module.exports = {
     .setName("list-bounties")
     .setDescription("Gets all active bounties."),
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     await connect();
     const bounties = await Bounty.find({ claimed: false })
       .populate("bountyCreator")

@@ -7,7 +7,7 @@ module.exports = {
     .setName("get-bonus")
     .setDescription("Gets the bonus for the day."),
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     await connect();
     const bonus = await Bonus.getTodaysBonus();
     if (!bonus) {

@@ -15,7 +15,7 @@ module.exports = {
         .setRequired(false),
     ),
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     await connect();
     let discordUser = interaction.options.getUser("username");
     if (!discordUser) {

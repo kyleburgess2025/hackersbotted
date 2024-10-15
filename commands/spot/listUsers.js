@@ -7,7 +7,7 @@ module.exports = {
     .setName("list-users")
     .setDescription("Lists all registered users."),
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     await connect();
     const users = await User.find();
     let userList = "Users:\n";

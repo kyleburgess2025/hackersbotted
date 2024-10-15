@@ -16,7 +16,7 @@ module.exports = {
         .setRequired(false),
     ),
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     await connect();
     let username = interaction.options.getString("username");
     if (!username) {
