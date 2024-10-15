@@ -9,9 +9,8 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
   async execute(client) {
-    let scheduledMessage = new cron.CronJob("13 19 * * *", async () => {
+    let scheduledMessage = new cron.CronJob("0 9 * * *", async () => {
       let channel = client.channels.cache.get(process.env.CHANNEL_ID);
-      channel.send("Getting bonus");
       channel.send(await createBonus());
     });
 
