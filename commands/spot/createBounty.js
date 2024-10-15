@@ -32,13 +32,18 @@ module.exports = {
       return;
     }
     if (bountyCreator.points < points) {
-      await interaction.editReply("You do not have enough points to create this bounty.");
+      await interaction.editReply(
+        "You do not have enough points to create this bounty.",
+      );
       return;
     }
-    const currentBounty = await Bounty.findOne({ onUser: user._id, claimed: false });
+    const currentBounty = await Bounty.findOne({
+      onUser: user._id,
+      claimed: false,
+    });
     if (currentBounty) {
       await interaction.editReply("You already have an active bounty.");
-      return
+      return;
     }
     await Bounty.create({
       bountyCreator: bountyCreator._id,
@@ -46,6 +51,8 @@ module.exports = {
       value: points,
       claimed: false,
     });
-    await interaction.editReply(`Bounty created on ${discordUser} for ${points} points.`);
+    await interaction.editReply(
+      `Bounty created on ${discordUser} for ${points} points.`,
+    );
   },
 };

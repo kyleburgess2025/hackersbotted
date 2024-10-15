@@ -12,7 +12,7 @@ module.exports = {
       option
         .setName("username")
         .setDescription("The username of the hacker you want to get stats for.")
-        .setRequired(false)
+        .setRequired(false),
     ),
   async execute(interaction) {
     await interaction.deferReply();
@@ -24,7 +24,7 @@ module.exports = {
     let fullUserAccount = await User.findByUsername(discordUser.username);
     if (!fullUserAccount) {
       interaction.editReply(
-        "The user you are trying to get stats for is not registered."
+        "The user you are trying to get stats for is not registered.",
       );
     }
     let allUsers = await User.find();
@@ -46,7 +46,9 @@ module.exports = {
       .addFields(
         {
           name: "Total Spots",
-          value: (await Spot.countDocuments({ spotter: fullUserAccount._id })).toString(),
+          value: (
+            await Spot.countDocuments({ spotter: fullUserAccount._id })
+          ).toString(),
         },
         {
           name: "Total Spotted",
@@ -62,32 +64,40 @@ module.exports = {
         },
         {
           name: "Active Bounties on User",
-          value: (await Bounty.countDocuments({
-            onUser: fullUserAccount._id,
-            claimed: false,
-          })).toString(),
+          value: (
+            await Bounty.countDocuments({
+              onUser: fullUserAccount._id,
+              claimed: false,
+            })
+          ).toString(),
         },
         {
           name: "Active Bounties Placed by User",
-          value: (await Bounty.countDocuments({
-            byUser: fullUserAccount._id,
-            claimed: false,
-          })).toString(),
+          value: (
+            await Bounty.countDocuments({
+              byUser: fullUserAccount._id,
+              claimed: false,
+            })
+          ).toString(),
         },
         {
           name: "Total Bounties Claimed",
-          value: (await Bounty.countDocuments({
-            claimedBy: fullUserAccount._id,
-            claimed: true,
-          })).toString(),
+          value: (
+            await Bounty.countDocuments({
+              claimedBy: fullUserAccount._id,
+              claimed: true,
+            })
+          ).toString(),
         },
         {
           name: "Total Bounties on User Claimed",
-          value: (await Bounty.countDocuments({
-            onUser: fullUserAccount._id,
-            claimed: true,
-          })).toString(),
-        }
+          value: (
+            await Bounty.countDocuments({
+              onUser: fullUserAccount._id,
+              claimed: true,
+            })
+          ).toString(),
+        },
       );
     console.log(allUserSpots);
     for (let i = 0; i < allUserSpots.length; i++) {
@@ -99,7 +109,10 @@ module.exports = {
       });
     }
     const notSpotted = allUsers.filter((user) => {
-      return user._id === fullUserAccount._id && !allUserSpots.find((spot) => spot._id.equals(user._id));
+      return (
+        user._id === fullUserAccount._id &&
+        !allUserSpots.find((spot) => spot._id.equals(user._id))
+      );
     });
     if (notSpotted.length === 0) {
       embed.addFields({

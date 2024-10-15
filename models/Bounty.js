@@ -33,7 +33,7 @@ const bountySchema = new Schema(
         return this.find({ claimed: false });
       },
     },
-  }
+  },
 );
 
 module.exports = models.Bounty || model("Bounty", bountySchema);

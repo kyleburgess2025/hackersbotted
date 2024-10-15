@@ -33,6 +33,6 @@ const userSchema = new Schema(
         return this.findOne({ username });
       },
     },
-  }
+  },
 );
 module.exports = models.User || model("User", userSchema);

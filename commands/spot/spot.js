@@ -13,49 +13,49 @@ module.exports = {
       option
         .setName("photo")
         .setDescription("The photo of the hacker")
-        .setRequired(true)
+        .setRequired(true),
     )
     .addUserOption((option) =>
       option
         .setName("hacker")
         .setDescription("The hacker you are spotting")
-        .setRequired(true)
+        .setRequired(true),
     )
     .addStringOption((option) =>
       option
         .setName("description")
         .setDescription("Image description")
-        .setRequired(true)
+        .setRequired(true),
     )
     .addUserOption((option) =>
       option
         .setName("hacker2")
         .setDescription("The second hacker you are spotting")
-        .setRequired(false)
+        .setRequired(false),
     )
     .addUserOption((option) =>
       option
         .setName("hacker3")
         .setDescription("The third hacker you are spotting")
-        .setRequired(false)
+        .setRequired(false),
     )
     .addUserOption((option) =>
       option
         .setName("hacker4")
         .setDescription("The fourth hacker you are spotting")
-        .setRequired(false)
+        .setRequired(false),
     )
     .addUserOption((option) =>
       option
         .setName("hacker5")
         .setDescription("The fifth hacker you are spotting")
-        .setRequired(false)
+        .setRequired(false),
     )
     .addUserOption((option) =>
       option
         .setName("hacker6")
         .setDescription("The sixth hacker you are spotting")
-        .setRequired(false)
+        .setRequired(false),
     ),
   async execute(interaction) {
     await interaction.deferReply();
@@ -104,7 +104,7 @@ module.exports = {
     }
 
     let content = `${filteredHackers.join(
-      " "
+      " ",
     )}, you have been spotted: ${description}`;
 
     for (const spot of spots) {
@@ -160,7 +160,9 @@ async function spot(spotterId, spottedId) {
   await spot.save();
   await (await User.findById(spotterId)).addPoints(value);
   if (bounty) {
-    await (await User.findById(bounty.bountyCreator)).removePoints(bounty.value);
+    await (
+      await User.findById(bounty.bountyCreator)
+    ).removePoints(bounty.value);
     bounty.claim(spotterId);
   }
   return spot;

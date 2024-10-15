@@ -14,7 +14,9 @@ module.exports = {
       await interaction.editReply("No bonus today!");
       return;
     }
-    console.log(bonus.user)
-    await interaction.editReply(`Today's bonus is ${bonus.multiplier}x points on ${bonus.userId.username}!`);
+    console.log(bonus.user);
+    await interaction.editReply(
+      `Today's bonus is ${bonus.multiplier}x points on ${bonus.userId.username}!`,
+    );
   },
 };

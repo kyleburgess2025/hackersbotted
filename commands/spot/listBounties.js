@@ -9,10 +9,15 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply();
     await connect();
-    const bounties = await Bounty.find({ claimed: false }).populate("bountyCreator").populate("onUser").exec();
+    const bounties = await Bounty.find({ claimed: false })
+      .populate("bountyCreator")
+      .populate("onUser")
+      .exec();
     let bountyList = "Bounties:\n";
     bounties.forEach((bounty, index) => {
-      bountyList += `${index + 1}. ${bounty.onUser.username} - ${bounty.value} points - placed by ${bounty.bountyCreator.username}\n`;
+      bountyList += `${index + 1}. ${bounty.onUser.username} - ${
+        bounty.value
+      } points - placed by ${bounty.bountyCreator.username}\n`;
     });
     await interaction.editReply(bountyList);
   },
