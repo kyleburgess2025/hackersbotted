@@ -28,8 +28,6 @@ const bountySchema = new Schema(
         this.claimed = true;
         this.claimedAt = new Date();
         await this.save();
-        await User.findById(this.bountyCreator).removePoints(this.value);
-        await User.findById(claimerId).addPoints(this.value);
       },
       getOpenBounties: async function () {
         return this.find({ claimed: false });

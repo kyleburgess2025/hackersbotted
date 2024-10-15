@@ -1,10 +1,11 @@
 const { SlashCommandBuilder } = require("discord.js");
 const User = require("../../models/User");
 const Bounty = require("../../models/Bounty");
+const connect = require("../../mongo/db-connect");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("user")
+    .setName("user-info")
     .setDescription("Gets information about a user or yourself.")
     .addStringOption((option) =>
       option
@@ -16,6 +17,7 @@ module.exports = {
     ),
   async execute(interaction) {
     await interaction.deferReply();
+    await connect();
     let username = interaction.options.getString("username");
     if (!username) {
       username = interaction.user.username;

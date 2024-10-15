@@ -13,7 +13,6 @@ module.exports = {
     const userExists = await User.exists({ username: user.username });
 
     if (userExists) {
-      console.log("User exists");
       await interaction.editReply("You already have an account!");
       return;
     }
@@ -21,6 +20,7 @@ module.exports = {
     await User.create({
       username: user.username,
       points: 0,
+      discordId: user.id,
     });
 
     await interaction.editReply({

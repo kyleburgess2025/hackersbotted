@@ -5,6 +5,7 @@ const userSchema = new Schema(
   {
     username: String,
     points: Number,
+    discordId: String,
   },
   {
     methods: {
@@ -24,7 +25,6 @@ const userSchema = new Schema(
           spotted: this._id,
           timestamp: { $gte: twoWeeksAgo },
         });
-        console.log(spots);
         return Math.round(50 / (spots.length + 5));
       },
     },

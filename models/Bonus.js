@@ -7,6 +7,16 @@ const bonusSchema = new Schema({
   },
   multiplier: Number,
   timestamp: Date,
+}, {
+  statics: {
+    async getTodaysBonus() {
+      let yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      return this.findOne({
+        timestamp: { $gte: yesterday },
+      }).populate("userId").exec();
+    }
+  }
 });
 
 module.exports = models.Bonus || model("Bonus", bonusSchema);

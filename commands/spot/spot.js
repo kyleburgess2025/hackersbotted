@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, userMention } = require("discord.js");
 const connect = require("../../mongo/db-connect");
 const Spot = require("../../models/Spot");
 const User = require("../../models/User");
@@ -108,11 +108,11 @@ module.exports = {
     )}, you have been spotted: ${description}`;
 
     for (const spot of spots) {
-      content += formatSpot(spot);
+      content += await formatSpot(spot);
     }
 
     content +=
-      "\n You earned a total of " +
+      "\nYou earned a total of " +
       spots.reduce((acc, spot) => acc + spot.value, 0) +
       " points!";
     // respond with the photo and the hacker,
@@ -120,13 +120,16 @@ module.exports = {
   },
 };
 
-function formatSpot(spot) {
+async function formatSpot(spot) {
+  const spotted = await User.findById(spot.spotted);
   let content = "";
   if (spot.bounty) {
-    content += `\nSpotted ${spot.spotted.username} and earned ${spot.bounty.bountyCreator}'s bounty of ${spot.bounty.value} points!`;
+    const bounty = await Bounty.findById(spot.bounty).populate("bountyCreator");
+    content += `\nSpotted <@${spotted.discordId}> and earned <@${bounty.bountyCreator.discordId}>'s bounty of ${bounty.value} points!`;
   }
   if (spot.bonus) {
-    content += `\nSpotted ${spot.spotted.username} and earned a bonus multiplier of ${spot.bonus.multiplier}!`;
+    const bonus = await Bonus.findById(spot.bonus);
+    content += `\nSpotted <@${spotted.discordId}> and earned a bonus multiplier of ${bonus.multiplier}!`;
   }
   return content;
 }
@@ -157,7 +160,7 @@ async function spot(spotterId, spottedId) {
   await spot.save();
   await (await User.findById(spotterId)).addPoints(value);
   if (bounty) {
-    await (await User.findById(bountyCreator)).removePoints(bounty.value);
+    await (await User.findById(bounty.bountyCreator)).removePoints(bounty.value);
     bounty.claim(spotterId);
   }
   return spot;
