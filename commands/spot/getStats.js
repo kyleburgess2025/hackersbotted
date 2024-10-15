@@ -110,7 +110,7 @@ module.exports = {
     }
     const notSpotted = allUsers.filter((user) => {
       return (
-        user._id === fullUserAccount._id &&
+        user._id !== fullUserAccount._id &&
         !allUserSpots.find((spot) => spot._id.equals(user._id))
       );
     });
