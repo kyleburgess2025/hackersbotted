@@ -52,7 +52,9 @@ module.exports = {
         },
         {
           name: "Total Spotted",
-          value: allUserSpots.length.toString(),
+          value: (
+            await Spot.countDocuments({ spotted: fullUserAccount._id })
+          ).toString(),
         },
         {
           name: "Total Left to be Spotted",
