@@ -37,7 +37,7 @@ module.exports = {
     }
     if (bountyCreator.points < points) {
       await interaction.editReply(
-        "You do not have enough points to create this bounty.",
+        "You do not have enough points to create this bounty. That or you are Aadi. L",
       );
       return;
     }
@@ -46,7 +46,7 @@ module.exports = {
       claimed: false,
     });
     if (currentBounty) {
-      await interaction.editReply("You already have an active bounty. Stop trying to break the bot Aadi");
+      await interaction.editReply("You already have an active bounty.");
       return;
     }
     await Bounty.create({
