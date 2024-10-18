@@ -4,7 +4,7 @@ const connect = require("./db-connect");
 
 async function createBonus() {
   await connect();
-  let randomUser = (await User.aggregate([{ $sample: { size: 1 } }]))[0];
+  let randomUser = (await User.aggregate([{ $sample: { size: 1 } }]).exec())[0];
   const randomMultiplier = Number((Math.random() + 1).toFixed(2))
   await Bonus.create({
     userId: randomUser._id,
