@@ -27,6 +27,10 @@ module.exports = {
     const points = interaction.options.getInteger("points");
     const bountyCreator = await User.findByUsername(interaction.user.username);
     const user = await User.findByUsername(username);
+    if (points < 0) {
+      await interaction.editReply("You cannot create a bounty with negative points.");
+      return;
+    }
     if (!user || !bountyCreator) {
       await interaction.editReply("User not found.");
       return;
