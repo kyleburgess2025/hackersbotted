@@ -7,27 +7,29 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("user-info")
     .setDescription("Gets information about a user or yourself.")
-    .addStringOption((option) =>
+    .addUserOption((option) =>
       option
-        .setName("username")
+        .setName("user")
         .setDescription(
-          "The username of the user you want to get information about",
+          "The user you want to get information about",
         )
         .setRequired(false),
     ),
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: true });
     await connect();
-    let username = interaction.options.getString("username");
-    if (!username) {
-      username = interaction.user.username;
+    let discordUser = interaction.options.getUser("user");
+    let username = interaction.user.username;
+    if (discordUser) {
+      username = discordUser.username;
     }
     const user = await User.findOne({ username });
     if (!user) {
       await interaction.reply("User not found.");
       return;
     }
-    let userInfo = `Username: ${user.username}\nPoints: ${user.points}`;
+    const pointValue = await user.findValue();
+    let userInfo = `Username: ${user.username}\nPoints: ${user.points}\nValue: ${pointValue}`;
     const bounties = await Bounty.find({ onUser: user._id, claimed: false });
     const heldBounties = await Bounty.find({
       byUser: user._id,

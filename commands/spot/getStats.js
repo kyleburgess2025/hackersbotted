@@ -65,6 +65,10 @@ module.exports = {
           value: fullUserAccount.points.toString(),
         },
         {
+          name: "Point Value",
+          value: (await fullUserAccount.findValue()).toString(),
+        },
+        {
           name: "Active Bounties on User",
           value: (
             await Bounty.countDocuments({
