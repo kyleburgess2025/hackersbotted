@@ -6,6 +6,7 @@ const userSchema = new Schema(
     username: String,
     points: Number,
     discordId: String,
+    // nickname: String,
   },
   {
     methods: {

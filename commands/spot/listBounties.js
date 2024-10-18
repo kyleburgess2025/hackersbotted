@@ -15,9 +15,9 @@ module.exports = {
       .exec();
     let bountyList = "Bounties:\n";
     bounties.forEach((bounty, index) => {
-      bountyList += `${index + 1}. ${bounty.onUser.username} - ${
+      bountyList += `${index + 1}. <@${bounty.onUser.discordId}> - ${
         bounty.value
-      } points - placed by ${bounty.bountyCreator.username}\n`;
+      } points - placed by <@${bounty.bountyCreator.discordId}>\n`;
     });
     await interaction.editReply(bountyList);
   },

@@ -16,6 +16,7 @@ module.exports = {
       await interaction.editReply("You already have an account!");
       return;
     }
+    console.log(interaction)
 
     await User.create({
       username: user.username,

@@ -122,7 +122,7 @@ module.exports = {
     } else {
       embed.addFields({
         name: "Not Spotted",
-        value: notSpotted.map((user) => user.username).join(", "),
+        value: notSpotted.map((user) => `<@${user.discordId}>`).join(", "),
       });
     }
     interaction.editReply({ embeds: [embed] });

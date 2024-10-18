@@ -12,7 +12,7 @@ module.exports = {
     const users = await User.find();
     let userList = "Users:\n";
     users.forEach((user, index) => {
-      userList += `${index + 1}. ${user.username}\n`;
+      userList += `${index + 1}. <@${user.discordId}>\n`;
     });
     await interaction.editReply(userList);
   },
