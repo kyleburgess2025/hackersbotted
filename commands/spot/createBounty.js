@@ -42,11 +42,11 @@ module.exports = {
       return;
     }
     const currentBounty = await Bounty.findOne({
-      onUser: user._id,
+      onUser: bountyCreator._id,
       claimed: false,
     });
     if (currentBounty) {
-      await interaction.editReply("You already have an active bounty.");
+      await interaction.editReply("You already have an active bounty. Stop trying to break the bot Aadi");
       return;
     }
     await Bounty.create({
