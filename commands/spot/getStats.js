@@ -99,7 +99,6 @@ module.exports = {
           ).toString(),
         },
       );
-    console.log(allUserSpots);
     for (let i = 0; i < allUserSpots.length; i++) {
       let user = await User.findById(allUserSpots[i]._id);
       embed.addFields({
