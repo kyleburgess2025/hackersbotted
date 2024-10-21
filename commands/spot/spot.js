@@ -138,7 +138,7 @@ async function spot(spotterId, spottedId) {
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
   const bonus = await Bonus.findOne({
-    userId: spotterId,
+    userId: spottedId,
     timestamp: { $gte: oneDayAgo },
   });
   const bounty = await Bounty.findOne({
