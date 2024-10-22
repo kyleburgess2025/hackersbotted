@@ -152,7 +152,7 @@ async function spot(spotterId, spottedId) {
   const spot = new Spot({
     spotter: spotterId,
     spotted: spottedId,
-    value,
+    value: Math.round(value),
     timestamp: new Date(),
     bonus: bonus ? bonus._id : null,
     bounty: bounty ? bounty._id : null,
