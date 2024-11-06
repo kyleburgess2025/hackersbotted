@@ -1,6 +1,7 @@
 const { Events } = require("discord.js");
 const dotenv = require("dotenv");
 const createBonus = require("../mongo/create-bonus");
+const benBonus = require("../mongo/ben-bonus");
 const cron = require("cron");
 
 dotenv.config();
@@ -13,6 +14,9 @@ module.exports = {
       let channel = client.channels.cache.get(process.env.CHANNEL_ID);
       channel.send(await createBonus());
     });
+
+    let channel = client.channels.cache.get(process.env.CHANNEL_ID);
+    channel.send(await benBonus());
 
     // When you want to start it, use:
     scheduledMessage.start();
