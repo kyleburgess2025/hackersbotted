@@ -15,9 +15,6 @@ module.exports = {
       channel.send(await createBonus());
     });
 
-    let channel = client.channels.cache.get(process.env.CHANNEL_ID);
-    channel.send(await benBonus());
-
     // When you want to start it, use:
     scheduledMessage.start();
     console.log(`Ready! Logged in as ${client.user.tag}`);
