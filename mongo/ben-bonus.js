@@ -11,7 +11,7 @@ async function createBonus() {
     multiplier: randomMultiplier,
     timestamp: new Date(),
   });
-  return `Today's daily bonus is ${randomMultiplier}x points on <@conjugation>!`;
+  return `Today's daily bonus is ${randomMultiplier}x points on <@${randomUser.discordId}>!`;
 }
 
 module.exports = createBonus;
