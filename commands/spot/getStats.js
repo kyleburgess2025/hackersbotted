@@ -62,7 +62,7 @@ module.exports = {
         },
         {
           name: "Total Points",
-          value: fullUserAccount.points.toString(),
+          value: fullUserAccount.points.toFixed(2),
         },
         {
           name: "Point Value",
