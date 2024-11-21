@@ -12,8 +12,7 @@ module.exports = {
     const users = await User.find().sort({ points: -1 }).limit(10);
     let leaderboard = "Leaderboard:\n";
     users.forEach((user, index) => {
-      user_points_fmt = user.points.toFixed(2);
-      leaderboard += `${index + 1}. <@${user.discordId}> - ${user_points_fmt} points\n`;
+      leaderboard += `${index + 1}. <@${user.discordId}> - ${user.points.toFixed(2)} points\n`;
     });
     await interaction.editReply(leaderboard);
   },
