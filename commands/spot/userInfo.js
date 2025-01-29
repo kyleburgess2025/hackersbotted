@@ -29,7 +29,7 @@ module.exports = {
       return;
     }
     const pointValue = await user.findValue();
-    let userInfo = `Username: ${user.username}\nPoints: ${user.points}\nValue: ${pointValue}`;
+    let userInfo = `Username: ${user.username}\nPoints: ${user.points.toFixed(2)}\nValue: ${pointValue}`;
     const bounties = await Bounty.find({ onUser: user._id, claimed: false });
     const heldBounties = await Bounty.find({
       byUser: user._id,
