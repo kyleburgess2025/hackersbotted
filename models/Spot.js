@@ -24,6 +24,14 @@ const spotSchema = new Schema({
     ref: "Bonus",
     required: false,
   },
+  messageId: {
+    type: String,
+    required: false,
+  },
+  disputeArr: {
+    type: Array,
+    required: false,
+  },
 });
 
 module.exports = models.Spot || model("Spot", spotSchema);

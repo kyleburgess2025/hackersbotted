@@ -1,9 +1,15 @@
-const { SlashCommandBuilder, userMention } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ActionRowBuilder,
+} = require("discord.js");
 const connect = require("../../mongo/db-connect");
 const Spot = require("../../models/Spot");
 const User = require("../../models/User");
 const Bonus = require("../../models/Bonus");
 const Bounty = require("../../models/Bounty");
+const { formatSpot } = require("../../helpers/utilities");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,49 +19,49 @@ module.exports = {
       option
         .setName("photo")
         .setDescription("The photo of the hacker")
-        .setRequired(true),
+        .setRequired(true)
     )
     .addUserOption((option) =>
       option
         .setName("hacker")
         .setDescription("The hacker you are spotting")
-        .setRequired(true),
+        .setRequired(true)
     )
     .addStringOption((option) =>
       option
         .setName("description")
         .setDescription("Image description")
-        .setRequired(true),
+        .setRequired(true)
     )
     .addUserOption((option) =>
       option
         .setName("hacker2")
         .setDescription("The second hacker you are spotting")
-        .setRequired(false),
+        .setRequired(false)
     )
     .addUserOption((option) =>
       option
         .setName("hacker3")
         .setDescription("The third hacker you are spotting")
-        .setRequired(false),
+        .setRequired(false)
     )
     .addUserOption((option) =>
       option
         .setName("hacker4")
         .setDescription("The fourth hacker you are spotting")
-        .setRequired(false),
+        .setRequired(false)
     )
     .addUserOption((option) =>
       option
         .setName("hacker5")
         .setDescription("The fifth hacker you are spotting")
-        .setRequired(false),
+        .setRequired(false)
     )
     .addUserOption((option) =>
       option
         .setName("hacker6")
         .setDescription("The sixth hacker you are spotting")
-        .setRequired(false),
+        .setRequired(false)
     ),
   async execute(interaction) {
     await interaction.deferReply();
@@ -68,6 +74,11 @@ module.exports = {
     const hacker5 = interaction.options.getUser("hacker5");
     const hacker6 = interaction.options.getUser("hacker6");
     const hackers = [hacker, hacker2, hacker3, hacker4, hacker5, hacker6];
+    const dispute = new ButtonBuilder()
+      .setCustomId("dispute")
+      .setLabel("Dispute")
+      .setStyle(ButtonStyle.Danger);
+    const row = new ActionRowBuilder().addComponents(dispute);
     // filter out hackers that are not defined
     const filteredHackers = hackers.filter((hacker) => hacker !== null);
     // if any of the hackers are the same, respond with an error
@@ -100,11 +111,11 @@ module.exports = {
           content: `You can't spot yourself!`,
         });
       }
-      spots.push(await spot(spotter._id, spotted._id));
+      spots.push(await spot(spotter._id, spotted._id, interaction.id));
     }
 
     let content = `${filteredHackers.join(
-      " ",
+      " "
     )}, you have been spotted: ${description}`;
 
     for (const spot of spots) {
@@ -116,25 +127,11 @@ module.exports = {
       spots.reduce((acc, spot) => acc + spot.value, 0) +
       " points!";
     // respond with the photo and the hacker,
-    await interaction.editReply({ content, files: [photo] });
+    await interaction.editReply({ content, files: [photo], components: [row] });
   },
 };
 
-async function formatSpot(spot) {
-  const spotted = await User.findById(spot.spotted);
-  let content = "";
-  if (spot.bounty) {
-    const bounty = await Bounty.findById(spot.bounty).populate("bountyCreator");
-    content += `\nSpotted <@${spotted.discordId}> and earned <@${bounty.bountyCreator.discordId}>'s bounty of ${bounty.value} points!`;
-  }
-  if (spot.bonus) {
-    const bonus = await Bonus.findById(spot.bonus);
-    content += `\nSpotted <@${spotted.discordId}> and earned a bonus multiplier of ${bonus.multiplier}!`;
-  }
-  return content;
-}
-
-async function spot(spotterId, spottedId) {
+async function spot(spotterId, spottedId, messageId) {
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
   const bonus = await Bonus.findOne({
@@ -156,6 +153,7 @@ async function spot(spotterId, spottedId) {
     timestamp: new Date(),
     bonus: bonus ? bonus._id : null,
     bounty: bounty ? bounty._id : null,
+    messageId: messageId,
   });
   await spot.save();
   await (await User.findById(spotterId)).addPoints(value);
