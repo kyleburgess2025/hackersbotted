@@ -36,7 +36,7 @@ module.exports = {
       } else if (!spot.disputeArr || spot.disputeArr.length === 0) {
         spot.disputeArr = [userId];
         await spot.save();
-        currentContent += `\n\nThis has been disputed by ${spot.disputeArr.length} member(s). 3 disputes are needed to delete this spot.`;
+        currentContent += `\n\nThis has been disputed by ${spot.disputeArr.length} member`+ (spot.disputeArr.length > 1 ? 's' : '') + `. 3 disputes are needed to delete this spot.`;
       } else if (spot.disputeArr.includes(userId)) {
         console.log("User already disputed this spot");
         return;
@@ -51,7 +51,7 @@ module.exports = {
           await deleteSpot(messageId);
           interaction.editReply({ components: [] });
         } else {
-          currentContent += `\n\nThis has been disputed by ${spot.disputeArr.length} member(s). 3 disputes are needed to delete this spot.`;
+          currentContent += `\n\nThis has been disputed by ${spot.disputeArr.length} member`+ (spot.disputeArr.length > 1 ? 's' : '') + `. 3 disputes are needed to delete this spot.`;
         }
       }
       await interaction.editReply(currentContent);
