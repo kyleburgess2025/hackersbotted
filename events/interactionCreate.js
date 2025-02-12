@@ -46,8 +46,10 @@ module.exports = {
         await spot.save();
         currentContent = getOriginalContent(currentContent);
         if (spot.disputeArr.length >= 3) {
-          currentContent +=
-            "\n\nThis spot has been disputed by 3 members and will not be counted toward point values!";
+          currentContent += `\n\nThis spot has been disputed by 3 members and will not be counted toward point values! The members who disputed are: ${spot.disputeArr.map(
+            (userId, index) =>
+              `<@${userId}>${index < spot.disputeArr.length - 1 && ", "}`
+          )}.`;
           await deleteSpot(messageId);
           interaction.editReply({ components: [] });
         } else {

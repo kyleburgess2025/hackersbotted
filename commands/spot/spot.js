@@ -141,6 +141,9 @@ async function spot(spotterId, spottedId, messageId) {
   const bounty = await Bounty.findOne({
     onUser: spottedId,
     claimed: false,
+    bountyCreator: {
+      $ne: spotterId,
+    },
   });
   const value =
     (await (await User.findById(spottedId)).findValue()) *
